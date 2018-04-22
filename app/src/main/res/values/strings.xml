@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">survivrr</string>
+    <string name="Save">Save</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Login">Log-In</string>
+    <string name="Register">Register</string>
+    <string name="Username">Username</string>
+    <string name="Password">Password</string>
+    <string name="Name">Name</string>
+    <string name="address">Address</string>
+    <string name="phone">Phone Number</string>
+    <string name="contact_address">Contact Address</string>
+    <string name="contact_phone_number">Contact Phone Number</string>
+    <string name="contact_name">Contact Name</string>
+    <string name="error_message_email">Enter Valid Email</string>
+    <string name="error_message_username">Enter Username</string>
+    <string name="error_message_password">Enter Password</string>
+    <string name="error_valid_email_password">Wrong Email or Password</string>
+    <string name="error_valid_username_password">Wrong Username or Password</string>
+    <string name="user_profile">User Profile</string>
+    <string name="update">Update</string>
+</resources>
