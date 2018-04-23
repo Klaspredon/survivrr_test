@@ -32,16 +32,34 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
+    private final AppCompatActivity activity = HomeActivity.this;
+    private String username;
+    private DBHelper dbHelper;
+    private UserInfo userInfo;
 
-//    EditText sms_num, sms_mes;
+    //    EditText sms_num, sms_mes;
     Button sms_send_A, sms_send_B, sms_send_C;
 
     // dummy data
-    String[] info_num = { "09357471170", "09178402099", "09357471170" };
-    String[] info_name = { "Julius Robert Oppenheimer", "Adolf Hitler", "Juan Luna" };
-    String[] info_data = { "I have become death, the destroyer of worlds...",
-            "How long we'll be together? Forevermore...",
-            "I am a man with sad stories" };
+//    String[] info_num = { "09357471170", "09178402099", "09357471170" };
+//    String[] info_name = { "Julius Robert Oppenheimer", "Adolf Hitler", "Juan Luna" };
+//    String[] info_data = { "I have become death, the destroyer of worlds...",
+//            "How long we'll be together? Forevermore...",
+//            "I am a man with sad stories" };
+
+    // non-persistent data
+    String info_USERname;
+    String info_USERnum;
+    String info_USERaddr;
+    String info_USERgender;
+    String info_USERbday;
+    String info_PTCICOEname;
+    String info_PTCICOEnum;
+    String info_PTCICOEaddr;
+
+    String[] request_type = { "FIREFIGHTER", "HOSPITAL", "POLICE" };
+
+
     /*
         // location
         private GeoDataClient mGeoDataClient;
@@ -52,6 +70,24 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        // get info from database
+        dbHelper = new DBHelper(activity);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null){
+            username = extras.getString("USERNAME");
+        }
+
+        userInfo = dbHelper.getUserInfo(username);
+
+        info_USERname = userInfo.getUserName();
+        info_USERnum = userInfo.getUserPhone();
+        info_USERaddr = userInfo.getUserAddress();
+//        info_USERgender = userInfo.getUserGender();
+//        info_USERbday = userInfo.getUserBirthday();
+        info_PTCICOEname = userInfo.getUserContactName();
+        info_PTCICOEnum = userInfo.getUserContactPhone();
+        info_PTCICOEaddr = userInfo.getUserContactAddress();
 /*
         // location
         // Construct a GeoDataClient
@@ -137,22 +173,25 @@ public class HomeActivity extends AppCompatActivity {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String s_timestamp = sdf_date.format(timestamp) + " at " + sdf_time.format(timestamp);
 
-        // get data from local database (get data from dummy data for now)
-        String s_info_name = info_name[x];
-        String s_info_data = info_data[x];
+        // setup sms message to PTCICOE
+        String PTCICOE_sms_mes = "Sent on " + s_timestamp + "\n" + info_USERname.toUpperCase() + " has requested help from the " + request_type[x] + ". ";
 
-        String s_sms_num = info_num[x];
-        String s_sms_mes = "Sent on " + s_timestamp + "\n" + "Name: " + s_info_name + "\n" + "Details: \n" + s_info_data;
+//        if(info_USERgender == "Male"){
+            PTCICOE_sms_mes = PTCICOE_sms_mes + "He ";
+//        }
 
-//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//        PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 0, intent,0);
+        PTCICOE_sms_mes = PTCICOE_sms_mes + "currently lives on " + info_USERaddr.toUpperCase() + ".\n";
+        PTCICOE_sms_mes = PTCICOE_sms_mes + "Please verify the emergency by calling this number but take note to proceed with CAUTION.\n\n";
+        PTCICOE_sms_mes = PTCICOE_sms_mes + "[You are receiving this because you are listed as the Person to Contact in Case of Emergency.]";
+
+
         SmsManager sms = SmsManager.getDefault();
 //        sms.sendTextMessage(s_sms_num, null, s_sms_mes, null, null);
 
-        ArrayList<String> s_sms_mes_divided = sms.divideMessage(s_sms_mes);
-        sms.sendMultipartTextMessage(s_sms_num, null, s_sms_mes_divided, null, null);
+        ArrayList<String> s_sms_mes_divided = sms.divideMessage(PTCICOE_sms_mes);
+        sms.sendMultipartTextMessage(info_PTCICOEnum, null, s_sms_mes_divided, null, null);
 
-        Toast.makeText(getApplicationContext(), "Message Sent successfully!",
+        Toast.makeText(getApplicationContext(), "Message Sent to " + info_PTCICOEname.toUpperCase() + "!",
                 Toast.LENGTH_LONG).show();
     }
 }
