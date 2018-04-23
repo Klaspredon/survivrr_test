@@ -30,14 +30,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        scrollView = (ScrollView) findViewById(R.id.ScrollView);
-        textView = (TextView) findViewById(R.id.textView2);
-        editTextName = (EditText) findViewById(R.id.editText);
-        editTextPhone = (EditText) findViewById(R.id.editText2);
-        editTextAddress = (EditText) findViewById(R.id.editText3);
-        editTextContactName = (EditText) findViewById(R.id.editText4);
-        editTextContactPhone = (EditText) findViewById(R.id.editText5);
-        editTextContactAddress = (EditText) findViewById(R.id.editText6);
+        scrollView = findViewById(R.id.ScrollView);
+        textView = findViewById(R.id.textView2);
+        editTextName = findViewById(R.id.editText);
+        editTextPhone = findViewById(R.id.editText2);
+        editTextAddress = findViewById(R.id.editText3);
+        editTextContactName = findViewById(R.id.editText4);
+        editTextContactPhone = findViewById(R.id.editText5);
+        editTextContactAddress = findViewById(R.id.editText6);
 
         dbHelper = new DBHelper(activity);
         Bundle extras = getIntent().getExtras();
@@ -72,7 +72,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goto_home (View view) {
-        startActivity( new Intent(activity, HomeActivity.class) );
+        Intent intent = new Intent(activity, HomeActivity.class);
+        intent.putExtra("USERNAME", username);
+        startActivity(intent);
     }
 
     public void goto_faq (View view) {
