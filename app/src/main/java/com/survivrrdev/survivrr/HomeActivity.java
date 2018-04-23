@@ -57,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
     String info_PTCICOEnum;
     String info_PTCICOEaddr;
 
-    String[] request_type = { "FIREFIGHTER", "HOSPITAL", "POLICE" };
+    String[] request_type = { "FIRE DEPARTMENT", "HOSPITAL", "POLICE" };
 
 
     /*
